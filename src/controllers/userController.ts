@@ -6,6 +6,48 @@ import { HTTP_STATUS, HTTP_STATUS_CODE } from '../constants/httpCodes';
 import { User } from '../entities/user';
 import { createAccessToken, sendAccessToken } from '../utils/auth';
 
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOneBy({ email });
+    if (!user) {
+      res.status(HTTP_STATUS_CODE.NOT_FOUND).json({
+        status: HTTP_STATUS.ERROR,
+        message: ERROR_MESSAGES.USER_NOT_FOUND,
+      });
+      return;
+    }
+
+    const isValidPassword = await argon2.verify(user.password, password);
+    if (!isValidPassword) {
+      res.status(HTTP_STATUS_CODE.UNAUTHORIZED).json({
+        status: HTTP_STATUS.ERROR,
+        message: ERROR_MESSAGES.WRONG_CREDENTIALS,
+      });
+      return;
+    }
+
+    const accessToken = createAccessToken(user);
+    sendAccessToken(res, accessToken);
+
+    res.json({
+      status: HTTP_STATUS.SUCCESS,
+      data: {
+        userId: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const signup = async (
   req: Request,
   res: Response,
