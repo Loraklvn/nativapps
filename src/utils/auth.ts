@@ -25,3 +25,9 @@ export const sendAccessToken = (res: Response, token: string): void => {
     secure: true,
   });
 };
+
+export const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  return emailRegex.test(email);
+};

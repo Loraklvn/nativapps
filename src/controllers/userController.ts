@@ -4,7 +4,11 @@ import { NextFunction, Request, Response } from 'express';
 import { ERROR_MESSAGES } from '../constants/apiMessages';
 import { HTTP_STATUS, HTTP_STATUS_CODE } from '../constants/httpCodes';
 import { User } from '../entities/user';
-import { createAccessToken, sendAccessToken } from '../utils/auth';
+import {
+  createAccessToken,
+  isValidEmail,
+  sendAccessToken,
+} from '../utils/auth';
 
 export const login = async (
   req: Request,
@@ -59,6 +63,14 @@ export const signup = async (
     res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
       status: HTTP_STATUS.ERROR,
       message: ERROR_MESSAGES.CREATE_USER_FIELDS_REQUIRED,
+    });
+    return;
+  }
+
+  if (!isValidEmail(email)) {
+    res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
+      status: HTTP_STATUS.ERROR,
+      message: ERROR_MESSAGES.INVALID_EMAIL_ADDRESS,
     });
     return;
   }

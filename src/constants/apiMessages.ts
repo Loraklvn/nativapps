@@ -3,4 +3,5 @@ export const ERROR_MESSAGES = {
   WRONG_CREDENTIALS: 'Wrong credentials',
   USER_EXIST: 'User already exist.',
   CREATE_USER_FIELDS_REQUIRED: 'name, email and password are required fields.',
+  INVALID_EMAIL_ADDRESS: 'Invalid email address.',
 };
