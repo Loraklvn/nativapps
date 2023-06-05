@@ -49,32 +49,30 @@ export const getFlights = async (
 
     const validatedPageSize = Math.min(parsedPageSize, MAX_PAGE_SIZE);
 
-    const queryBuilder = appDataSource
+    const flightQueryBuilder = appDataSource
       .getRepository(Flight)
       .createQueryBuilder('flight')
       .select(flightCoulumns)
-      .leftJoin('flight.origin_airport', 'o')
-      .leftJoin('flight.destination_airport', 'd')
       .skip((parsedPage - 1) * validatedPageSize)
       .take(validatedPageSize);
 
     if (areSortParamsValid) {
-      queryBuilder.orderBy(`flight.${sortBy}`, sortOrder as 'ASC');
+      flightQueryBuilder.orderBy(`flight.${sortBy}`, sortOrder as 'ASC');
     }
 
-    if (parseInt(origin as string)) {
-      queryBuilder.andWhere('flight.origin = :originId', {
-        originId: parseInt(origin as string),
+    if (origin) {
+      flightQueryBuilder.andWhere('flight.origin ILIKE :origin', {
+        origin: `%${origin}%`,
       });
     }
 
-    if (parseInt(destination as string)) {
-      queryBuilder.andWhere('flight.destination = :destinationId', {
-        destinationId: parseInt(destination as string),
+    if (destination) {
+      flightQueryBuilder.andWhere('flight.destination ILIKE :destination', {
+        destination: `%${destination}%`,
       });
     }
 
-    const [flights, total] = await queryBuilder.getManyAndCount();
+    const [flights, total] = await flightQueryBuilder.getManyAndCount();
 
     res.json({
       status: HTTP_STATUS.SUCCESS,

@@ -30,7 +30,7 @@ export const getReservations = async (
       .select(reservationColumns)
       .leftJoin('r.flight', 'f')
       .where('r.user_id = :userId', { userId: parsedUserId })
-      .andWhere('r.status = "P"')
+      .andWhere('r.status = :status', { status: 'P' })
       .getMany();
 
     res.json({

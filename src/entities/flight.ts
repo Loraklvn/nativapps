@@ -3,13 +3,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { Airport } from './airport';
 
 @Entity()
 export class Flight extends BaseEntity {
@@ -25,19 +21,11 @@ export class Flight extends BaseEntity {
   @Column({ type: 'timestamp' })
   arrival_time: string;
 
-  @Column({ type: 'int' })
-  origin: number;
+  @Column()
+  origin: string;
 
-  @ManyToOne(() => Airport, (airport) => airport.id, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'origin' })
-  origin_airport: Airport;
-
-  @Column({ type: 'int' })
-  destination: number;
-
-  @ManyToOne(() => Airport, (airport) => airport.id, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'destination' })
-  destination_airport: Airport;
+  @Column()
+  destination: string;
 
   @CreateDateColumn()
   created_at: string;
