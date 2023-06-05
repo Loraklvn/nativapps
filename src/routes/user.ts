@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { PATH_USER } from '../constants/paths';
-import { login, signup } from '../controllers/userController';
+import { login, signup } from '../controllers/user';
 
 const userRouter: Router = Router();
 
