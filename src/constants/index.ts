@@ -1,3 +1,5 @@
+export const MAX_PAGE_SIZE = 40;
+
 export const LOG_FONT_COLORS = {
   SUCCESS_CONSOLE_FONT_COLOR: '\x1b[32m',
   FAIL_CONSOLE_FONT_COLOR: '\x1b[31m',

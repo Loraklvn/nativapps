@@ -28,15 +28,15 @@ export class Flight extends BaseEntity {
   @Column({ type: 'int' })
   origin: number;
 
-  @ManyToOne(() => Airport, (airport) => airport.id)
-  @JoinColumn({ name: 'desde' })
+  @ManyToOne(() => Airport, (airport) => airport.id, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'origin' })
   origin_airport: Airport;
 
   @Column({ type: 'int' })
   destination: number;
 
-  @ManyToOne(() => Airport, (airport) => airport.id)
-  @JoinColumn({ name: 'hasta' })
+  @ManyToOne(() => Airport, (airport) => airport.id, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'destination' })
   destination_airport: Airport;
 
   @CreateDateColumn()
