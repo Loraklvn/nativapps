@@ -21,7 +21,7 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column({ default: 'A' })
+  @Column({ type: 'enum', enum: ['A', 'I'], default: 'A' })
   status: string;
 
   @CreateDateColumn()

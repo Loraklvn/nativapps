@@ -27,7 +27,7 @@ export class Flight extends BaseEntity {
   @Column()
   destination: string;
 
-  @Column({ default: 'A' })
+  @Column({ type: 'enum', enum: ['A', 'I'], default: 'A' })
   status: string;
 
   @CreateDateColumn()
