@@ -27,6 +27,9 @@ export class Flight extends BaseEntity {
   @Column()
   destination: string;
 
+  @Column({ default: 'A' })
+  status: string;
+
   @CreateDateColumn()
   created_at: string;
 

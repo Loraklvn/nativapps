@@ -26,7 +26,7 @@ export const getFlights = async (
     const parsedPage = parseInt(page as string, 10);
     const parsedPageSize = parseInt(pageSize as string, 10);
 
-    if (validatePageParams(parsedPage, parsedPageSize)) {
+    if (!validatePageParams(parsedPage, parsedPageSize)) {
       res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
         status: HTTP_STATUS.ERROR,
         message: ERROR_MESSAGES.PAGE_PAGESIZE_NOT_VALID,

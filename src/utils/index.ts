@@ -4,7 +4,7 @@ export const validatePageParams = (
   page?: number,
   pageSize?: number,
 ): boolean => {
-  return !page || !pageSize || page < 1 || pageSize < 1;
+  return !!page && !!pageSize && page < 1 && pageSize < 1;
 };
 
 export const validateSortParams = (

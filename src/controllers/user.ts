@@ -59,23 +59,23 @@ export const signup = async (
 ): Promise<void> => {
   const { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
-    res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
-      status: HTTP_STATUS.ERROR,
-      message: ERROR_MESSAGES.CREATE_USER_FIELDS_REQUIRED,
-    });
-    return;
-  }
-
-  if (!isValidEmail(email)) {
-    res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
-      status: HTTP_STATUS.ERROR,
-      message: ERROR_MESSAGES.INVALID_EMAIL_ADDRESS,
-    });
-    return;
-  }
-
   try {
+    if (!name || !email || !password) {
+      res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
+        status: HTTP_STATUS.ERROR,
+        message: ERROR_MESSAGES.CREATE_USER_FIELDS_REQUIRED,
+      });
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
+        status: HTTP_STATUS.ERROR,
+        message: ERROR_MESSAGES.INVALID_EMAIL_ADDRESS,
+      });
+      return;
+    }
+
     const userExist = await User.findOneBy({ email });
 
     if (userExist) {
