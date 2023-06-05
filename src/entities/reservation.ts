@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
@@ -26,6 +27,9 @@ export class Reservation extends BaseEntity {
   @ManyToOne(() => Flight, (flight) => flight.id)
   @JoinColumn({ name: 'flight_id' })
   flight: Flight;
+
+  @Column({ type: 'enum', enum: ['P', 'C'], default: 'P' })
+  status: 'P';
 
   @CreateDateColumn()
   created_at: string;
