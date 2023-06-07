@@ -13,7 +13,7 @@ vuelos, seleccionar uno y realizar una reserva.
 ## Instrucciones para correr el projecto en local.
 
 ### 1. Clona el repositotio
-Abre la terminal y corre el siguiente comando: git clone https://github.com/Loraklvn/nativapps.git
+Abre la terminal y corre el siguiente comando: `git clone https://github.com/Loraklvn/nativapps.git`
 ### 2. Navega al directorio del projecto
 e.g: `cd nativapps`
 ### 3. Installa las dependencias 
