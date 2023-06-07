@@ -4,7 +4,7 @@ export const validatePageParams = (
   page?: number,
   pageSize?: number,
 ): boolean => {
-  return !!page && !!pageSize && page < 1 && pageSize < 1;
+  return !!page && !!pageSize && page >= 1 && pageSize >= 1;
 };
 
 export const validateSortParams = (
@@ -12,8 +12,8 @@ export const validateSortParams = (
   sortOrder?: string,
 ): boolean => {
   return (
-    !!sortBy &&
-    !!sortOrder &&
+    Boolean(sortBy) &&
+    Boolean(sortOrder) &&
     !!flightSortByColumns.includes(sortBy as string) &&
     (sortOrder === 'ASC' || sortOrder === 'DESC')
   );

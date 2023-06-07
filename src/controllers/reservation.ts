@@ -8,28 +8,19 @@ import { Reservation } from '../entities/reservation';
 import { CustomRequest } from '../types/indexl';
 
 export const getReservations = async (
-  req: CustomRequest,
+  _req: CustomRequest,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const userId = req?.user?.userId || '';
-    const parsedUserId = parseInt(userId);
-
-    if (!parsedUserId) {
-      res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
-        status: HTTP_STATUS.ERROR,
-        message: ERROR_MESSAGES.USER_NOT_FOUND,
-      });
-      return;
-    }
+    const userId = 1;
 
     const reservations = await appDataSource
       .getRepository(Reservation)
       .createQueryBuilder('r')
       .select(reservationColumns)
       .leftJoin('r.flight', 'f')
-      .where('r.user_id = :userId', { userId: parsedUserId })
+      .where('r.user_id = :userId', { userId })
       .andWhere('r.status = :status', { status: 'P' })
       .getMany();
 
@@ -53,10 +44,9 @@ export const createReservation = async (
   const { flightId } = req.body;
 
   try {
-    const userId = req?.user?.userId || '';
-    const parsedUserId = parseInt(userId);
+    const userId = 1;
     const parseFlightId = parseInt(flightId);
-    if (!parsedUserId || !parseFlightId) {
+    if (!parseFlightId) {
       res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
         status: HTTP_STATUS.ERROR,
         message: ERROR_MESSAGES.RESERVATION_BODY_NOT_VALID,
@@ -66,12 +56,22 @@ export const createReservation = async (
 
     await appDataSource
       .getRepository(Reservation)
-      .create({ user_id: parsedUserId, flight_id: parseFlightId })
+      .create({ user_id: userId, flight_id: parseFlightId })
       .save();
+
+    const reservationData = await appDataSource
+      .getRepository(Reservation)
+      .createQueryBuilder('r')
+      .select(reservationColumns)
+      .leftJoin('r.flight', 'f')
+      .where('r.user_id = :userId', { userId })
+      .andWhere('r.flight_id = :parseFlightId', { parseFlightId })
+      .andWhere('r.status = :status', { status: 'P' })
+      .getOne();
 
     res.json({
       status: HTTP_STATUS.SUCCESS,
-      data: true,
+      data: reservationData,
     });
   } catch (error) {
     next(error);

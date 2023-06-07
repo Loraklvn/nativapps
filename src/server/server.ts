@@ -11,7 +11,7 @@ export const initExpressServer = (): void => {
 
   app.use(
     cors({
-      origin: [process.env.FRONT_END_APP_URI || ''],
+      origin: [process.env.FRONT_END_APP_URI || '', 'http://localhost:5173'],
     }),
   );
 

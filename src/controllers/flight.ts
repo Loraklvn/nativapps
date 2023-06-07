@@ -39,7 +39,7 @@ export const getFlights = async (
       sortOrder as string,
     );
 
-    if (!areSortParamsValid) {
+    if (sortBy && sortOrder && !areSortParamsValid) {
       res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
         status: HTTP_STATUS.ERROR,
         message: ERROR_MESSAGES.SORT_FIELDS_NOT_VALID,
@@ -78,8 +78,8 @@ export const getFlights = async (
       status: HTTP_STATUS.SUCCESS,
       data: {
         total,
-        pageSize,
-        currentPage: page,
+        pageSize: parsedPageSize,
+        currentPage: parsedPage,
         totalPages: parseInt(`${Math.ceil(total / validatedPageSize)}`),
         flights,
       },
