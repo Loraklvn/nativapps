@@ -23,7 +23,7 @@ export const initExpressServer = (): void => {
 
   app.use(errorHandler);
 
-  app.listen(process.env.APP_PORT);
+  app.listen(process.env.PORT || process.env.APP_PORT);
 
   console.log(
     LOG_FONT_COLORS.SUCCESS_CONSOLE_FONT_COLOR,
